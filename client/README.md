@@ -1,36 +1,3 @@
-# SUPER IMPORTANT SHOW STOPPERS
-In order to get CommentList.js in the client to work you must wrap the fetchData function definition inside of the useEffect hook call, then call it, and also pass postId as a param to it inside the empty array passed as second arg to useEffect. That postId will be made available to the url string interpolation variable for the axios call to the comments service.
-
-LIKE THIS: ------------------------->>>>>>>>>>>>>>>>>>>
-
-import React, { useState, useEffect } from "react";
-import axios from "axios";
- 
-const CommentList = ({ postId }) => {
-  const [comments, setComments] = useState([]);
- 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get(
-        `http://localhost:4001/posts/${postId}/comments`
-      );
-  
-      setComments(res.data);
-    };
-    fetchData();
-  }, [postId]);
- 
-  const renderedComments = comments.map((comment) => {
-    return <li key={comment.id}>{comment.content}</li>;
-  });
- 
-  return <ul>{renderedComments}</ul>;
-};
- 
-export default CommentList; 
-
-
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

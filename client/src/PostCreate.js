@@ -6,11 +6,11 @@ const PostCreate = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
+    // Make request to our Post service
     await axios.post("http://localhost:4000/posts", {
       title,
     });
-
+    // Reset title to empty string
     setTitle("");
   };
 
