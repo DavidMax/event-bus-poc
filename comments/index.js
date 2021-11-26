@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { randomBytes } = require('crypto');
 const cors = require('cors');
-const { default: axios } = require('axios');
+const axios = require('axios');
 
 // create express app
 const app = express();
@@ -23,7 +23,7 @@ app.get('/posts/:id/comments', (req, res) => {
 });
 
 // Route handeler for adding new comment to a post
-app.post('/posts/:id/comments', (req, res) => {
+app.post('/posts/:id/comments', async (req, res) => {
   // create new comment id and convert to hex string
   const commentId = randomBytes(4).toString('hex');
   // Pull out content from request body
@@ -35,7 +35,7 @@ app.post('/posts/:id/comments', (req, res) => {
   // assign updated comments arr back to same post id
   commentsByPostId[req.params.id] = comments;
     // Send event to event-bus w title + post id & new comment id
-  axios.post('http://localhost:4005/events', {
+  await axios.post('http://localhost:4005/events', {
     type: 'CommentCreated',
     data: {
       id: commentId,
@@ -45,6 +45,13 @@ app.post('/posts/:id/comments', (req, res) => {
   });
   // respond w create success code & arr as confirmation
   res.status(201).send(comments);
+});
+
+// Route handler for events coming from event bus
+app.post('/events', (req, res) => {
+  // TODO: Remove this log of events
+  console.log('Received Event', req.body.type);
+  res.send({})
 });
 
 app.listen(4001, () => {
