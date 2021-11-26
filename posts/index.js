@@ -21,7 +21,7 @@ app.get('/posts', (req, res) => {
 });
 
 // Route handler to create a post
-app.post('/posts', (req, res) => {
+app.post('/posts', async (req, res) => {
   // create new post id and convert to hex string
   const id = randomBytes(4).toString('hex');
   // destructure title from request body
@@ -32,7 +32,7 @@ app.post('/posts', (req, res) => {
     title
   };
   // Send PostCreated event to event bus w id and title of new post
-  axios.post('http://localhost:4005/events'), {
+  await axios.post('http://localhost:4005/events'), {
     type: 'PostCreated',
     data: {
         id,
@@ -45,8 +45,8 @@ app.post('/posts', (req, res) => {
 
 // Route handler for events coming from event bus
 app.post('/events', (req, res) => {
+  // TODO: Remove this log of events
   console.log('Received Event', req.body.type);
-
   res.send({})
 });
 
