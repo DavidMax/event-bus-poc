@@ -18,9 +18,9 @@ app.post('/events', (req, res) => {
     // Grab event which is request body
     const event = req.body;
     // Make POST requests to all other services containing the event
-    axios.post('http://localhost:4000/events', event).catch(err => console.log(err.message));
-    axios.post('http://localhost:4001/events', event).catch(err => console.log(err.message));
-    axios.post('http://localhost:4002/events', event).catch(err => console.log(err.message));
+    axios.post('http://localhost:4000/events', event).catch(err => console.log('Posts svc error. Port 4000', err.message));
+    axios.post('http://localhost:4001/events', event).catch(err => console.log('Comments svc error. Port 4001', err.message));
+    axios.post('http://localhost:4002/events', event).catch(err => console.log('Query svc error. Port 4002', err.message));
     // when calls are done respond to original request with status
     res.send({ status: 'OK'});
 })
