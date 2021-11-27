@@ -1,12 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const { randomBytes } = require('crypto');
 const cors = require('cors');
 const axios = require('axios');
 
 // create express app
 const app = express();
-app.use(bodyParser.json());
+// Use express built in body parser to handle incoming JSON
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 // call cors module middleware that
 // handles cross origin issues by setting special header
